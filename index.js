@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { cadastraLead } from './sevico/manipulaLeads.js';
+import { validaUsuario } from './validacao/validaCadastro.js';
 
 const app = express();
 
@@ -12,9 +13,14 @@ app.post('/leads', async(req, res) => {
     const nome = req.body.nome;
     const email = req.body.email;
 
-    await cadastraLead(nome, email);
+    const usuarioValidado = validaUsuario(nome, email);
 
-    res.status(204).end();
+    if(usuarioValidado.status){
+        await cadastraLead(nome, email);
+        res.status(204).end();
+    }else {
+        res.status(404).send({mensagem: usuarioValidado.mensagem});
+    }    
     
 })
 
