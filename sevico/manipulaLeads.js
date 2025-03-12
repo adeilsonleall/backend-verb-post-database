@@ -11,3 +11,14 @@ export async function cadastraLead(nome, email) {
     return resposta;
     
 }
+
+export async function RetornaLeads() {
+    const conexao = await pool.getConnection();
+
+    const resposta = await conexao.query("SELECT idleads, nome, email FROM leads");
+    conexao.release();
+
+    const leads = resposta[0];
+
+    return leads;
+}
