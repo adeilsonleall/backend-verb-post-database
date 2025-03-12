@@ -65,7 +65,7 @@ app.get('/lista-leads', async(req, res) => {
 
     const listaLeads = await RetornaLeads();
 
-    res.status(tokenValido.codigo).send();
+    res.status(tokenValido.codigo).send({leads: listaLeads});
 });
 
 app.listen(8080, async() => {
